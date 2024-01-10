@@ -1,0 +1,13 @@
+version: '3'
+services:
+  sqldb_projectone:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1533:1433"
+    restart: always
+    networks:
+      - my_network
+networks:
+  my_network:
