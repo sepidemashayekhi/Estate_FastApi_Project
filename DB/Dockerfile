@@ -6,7 +6,6 @@ ENV MSSQL_PID=Developer
 ENV MSSQL_TCP_PORT=1433
 
 WORKDIR /src
-COPY tables.sql ./tables.sql
+COPY db.sql ./db.sql
 
-RUN (/opt/mssql/bin/sqlservr --accept-eula & ) | grep -q "Service Broker manager has started" &&  /opt/mssql-tools/bin/sqlcmd -S127.0.0.1 -Usa -P MyStrong@Passw0rd -i tables.sql
-
+RUN (/opt/mssql/bin/sqlservr --accept-eula & ) | grep -q "Service Broker manager has started" &&  /opt/mssql-tools/bin/sqlcmd -S127.0.0.1 -Usa -P MyStrong@Passw0rd -i db.sql

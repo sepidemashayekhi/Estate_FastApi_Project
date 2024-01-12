@@ -13,6 +13,7 @@ Uid=os.getenv('UID')
 Password=os.getenv('PASSWORD')
 
 
+
 class Conection:
     def __init__(self):
 

@@ -8,14 +8,14 @@ CREATE TABLE Wlelfare(
         Id INT PRIMARY KEY IDENTITY ,
         WlelfareCode CHAR(150)  NOT NULL UNIQUE ,
         Title NVARCHAR(200) NULL ,
-        Icon VARCHAR(350) NOT NULL
+        Icon VARCHAR(350) NULL
     );
 
 CREATE TABLE Category(
     ID INT PRIMARY KEY IDENTITY ,
     CategoryCode CHAR(150) NOT NULL UNIQUE ,
     ParentId INT FOREIGN KEY REFERENCES Category(ID) ,
-    Title CHAR(150)
+    Title NVARCHAR(150)
     );
 
 CREATE TABLE Estate(
@@ -74,9 +74,9 @@ CREATE TABLE Feature(
     );
 
 CREATE TABLE FeatureType(
+    ID INT PRIMARY KEY IDENTITY ,
     FeatureId INT FOREIGN KEY REFERENCES Feature(ID) ON DELETE CASCADE ,
     TypeId INT FOREIGN KEY REFERENCES Types(ID) ON DELETE CASCADE ,
-    Value char(150)
     );
 
 CREATE TABLE Files(
@@ -92,6 +92,12 @@ CREATE TABLE Files(
     PhoneNumber CHAR(25)
     );
 
+CREATE TABLE FeatureTypeFile(
+    FileId INT FOREIGN KEY REFERENCES Files(ID) ON DELETE CASCADE,
+    FeatureTypeId INT FOREIGN KEY REFERENCES FeatureType(ID) ON DELETE NO ACTION ,
+    Value VARCHAR(150)
+);
+
 CREATE TABLE FileImage(
     FileId INT FOREIGN KEY REFERENCES FILES(ID) ON DELETE CASCADE ,
     ImageId INT FOREIGN KEY REFERENCES Image(ID) ON DELETE CASCADE
@@ -106,3 +112,54 @@ CREATE TABLE FilesReturn(
     FileId INT FOREIGN KEY REFERENCES FILES(ID) ON DELETE CASCADE ,
     Description NVARCHAR(500)
     );
+
+
+
+
+INSERT INTO Wlelfare(WlelfareCode,Title,Icon)
+    VALUES  ('PARKING',N'پارکینگ',NULL ),
+            ('POOL',N'استخر',null ),
+            ('HEATER',N'شوفاژ',NULL ),
+            ('COOL',N'کولر',NULL );
+
+INSERT INTO Category(CategoryCode,ParentId,Title)
+    VALUES  ('EARTH',null,N'زمین') ,
+            ('VILLA',null ,N'ویلا') ,
+            ('HOME',null ,N'خانه')  ,
+            ('APARTMENT',null ,N'آپارتمان')
+
+INSERT INTO Estate(EstateCode,Name,Address,PhoneNumber)
+    VALUES ('EA',N'آسمان',N'تهران',N'09125478923'),
+           ('EB',N'بهمن',N'تهران',N'09125864215'),
+           ('EC',N'سیراف',N'تهران',N'09127531568');
+
+INSERT INTO State(StateCode,Title)
+    VALUES  ('AC',N'فعال'),
+            ('DAC',N'غیرفعال'),
+            ('WAC',N'در انتطار تایید'),
+            ('BL',N'مسدود');
+
+INSERT INTO Role(RoleCode,Title)
+    VALUES ('AD',N'ادمین'),
+           ('US',N'کاربر');
+
+INSERT INTO ImageType(ImageTypeCode,Title)
+    VALUES ('GALERY',N'گالری'),
+           ('PRO',N'پروفایل');
+
+INSERT INTO Feature(FeatureCode,Title)
+    VALUES ('MONTHRENT',N'اجاره ماهیانه'),
+           ('DAYRENT',N'اجاره روزانه') ,
+           ('MORTAGAGE',N'قیمت رهن') ,
+           ('PRICE',N'قیمت');
+
+INSERT INTO Types(TypesCode,Title)
+    VALUES ('RENT',N'اجاره'),
+           ('BUY',N'خرید'),
+           ('SALE',N'فروش'),
+           ('DAYRENT',N'اجاره روزانه'),
+           ('MORTAGAGE',N'رهن')
+
+INSERT  INTO FeatureType(FeatureId,TypeId)
+    VALUES  (1,1),(3,1),(4,2),
+            (4,3),(2,4),(3,5);
