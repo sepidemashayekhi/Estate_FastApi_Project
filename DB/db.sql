@@ -45,8 +45,8 @@ CREATE TABLE [User](
     RoleId  INT FOREIGN KEY REFERENCES Role(ID) ON DELETE CASCADE ,
     Name NVARCHAR(200) NULL ,
     Family NVARCHAR(200) NULL ,
-    Email CHAR(150) ,
-    Password char(100) ,
+    Email CHAR(150) NOT NULL UNIQUE ,
+    Password char(100) NOT NULL ,
     );
 
 CREATE TABLE ImageType(
