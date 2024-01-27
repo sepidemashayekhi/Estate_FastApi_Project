@@ -1,4 +1,5 @@
-
+from .conection import Conection
+con=Conection()
 
 def roman_numerals(num):
     roman_dict = {
@@ -24,3 +25,16 @@ def roman_numerals(num):
             num -= key
 
     return roman_num
+
+
+def fetch(query_str):
+    con.cursor.execute(query_str)
+    return {'results':
+            [dict(zip([column[0] for column in con.cursor.description], row))
+             for row in con.cursor.fetchall()]}
+
+
+
+def insert(query_str):
+    con.cursor.execute(query_str)
+    con.cursor.commit()

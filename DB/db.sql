@@ -73,12 +73,6 @@ CREATE TABLE Feature(
     Title NVARCHAR(250) ,
     );
 
-CREATE TABLE FeatureType(
-    ID INT PRIMARY KEY IDENTITY ,
-    FeatureId INT FOREIGN KEY REFERENCES Feature(ID) ON DELETE CASCADE ,
-    TypeId INT FOREIGN KEY REFERENCES Types(ID) ON DELETE CASCADE ,
-    );
-
 CREATE TABLE Files(
     ID INT PRIMARY KEY IDENTITY ,
     FilesCode CHAR(150) NOT NULL UNIQUE ,
@@ -89,14 +83,16 @@ CREATE TABLE Files(
     CreatorId INT FOREIGN KEY REFERENCES [User](ID) ON DELETE CASCADE  ,
     Title NVARCHAR(150) ,
     Laws NVARCHAR(500) ,
-    PhoneNumber CHAR(25)
+    PhoneNumber CHAR(25),
+    Address NVARCHAR(300),
     );
 
-CREATE TABLE FeatureTypeFile(
-    FileId INT FOREIGN KEY REFERENCES Files(ID) ON DELETE CASCADE,
-    FeatureTypeId INT FOREIGN KEY REFERENCES FeatureType(ID) ON DELETE NO ACTION ,
-    Value VARCHAR(150)
-);
+CREATE TABLE FileFootnote(
+    ID INT PRIMARY KEY IDENTITY ,
+    FileId INT FOREIGN KEY REFERENCES Files(ID) ON DELETE CASCADE ,
+    FeatureId INT FOREIGN KEY REFERENCES Feature(ID) ON DELETE CASCADE
+    Value char(150)
+) ;
 
 CREATE TABLE FileImage(
     FileId INT FOREIGN KEY REFERENCES FILES(ID) ON DELETE CASCADE ,
@@ -159,7 +155,3 @@ INSERT INTO Types(TypesCode,Title)
            ('SALE',N'فروش'),
            ('DAYRENT',N'اجاره روزانه'),
            ('MORTAGAGE',N'رهن')
-
-INSERT  INTO FeatureType(FeatureId,TypeId)
-    VALUES  (1,1),(3,1),(4,2),
-            (4,3),(2,4),(3,5);
